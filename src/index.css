@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+/* Dark mode berdasarkan class "dark" di tag <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
+body {
+  @apply bg-slate-50 text-slate-800 transition-colors duration-300 dark:bg-slate-900 dark:text-slate-100;
+}
