@@ -17,7 +17,7 @@ If you are developing a production application, we recommend using TypeScript wi
 
 
 
-# 📋 Instructor Attendance
+# 📋 Presensi Murid
 
 Web app absensi untuk instruktur. Instruktur dapat mencatat dan memantau kehadiran
 dirinya sendiri maupun murid dari beberapa kelas, lengkap dengan persentase
