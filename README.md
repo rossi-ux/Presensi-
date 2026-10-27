@@ -25,6 +25,11 @@ kehadiran, grafik, dan riwayat yang bisa difilter.
 
 > Dibuat sebagai tugas seleksi menggunakan React dan REST API DummyJSON.
 
+![Dashboard](docs/dashboard.png)
+![presensi murid](docs/presensi.png)
+![Riwayat](docs/riwayat.png)
+![Hasil cetak PDF](docs/laporan.png)
+
 ## Daftar Isi
 
 - [Fitur](#fitur)
@@ -59,8 +64,11 @@ kehadiran, grafik, dan riwayat yang bisa difilter.
 
 **Riwayat Kehadiran**
 - Tab **Riwayat Saya** dan **Riwayat Murid**
-- Filter: kelas, murid, status, dan rentang tanggal (bisa dikombinasikan)
+- Filter: kelas, murid, status, **bulan, tahun**, dan rentang tanggal
+  (bulan/tahun tersinkron dengan rentang tanggal)
 - Ringkasan angka mengikuti hasil filter, plus paginasi
+- **Cetak PDF**: laporan berwarna siap cetak (kop, ringkasan, rekap per murid,
+  rincian, dan kolom tanda tangan) yang mengikuti filter aktif
 
 **Lainnya**
 - Mode terang dan gelap (mengikuti pengaturan perangkat, pilihan diingat)
@@ -76,6 +84,7 @@ kehadiran, grafik, dan riwayat yang bisa difilter.
 | Styling | Tailwind CSS |
 | Version control | Git |
 | Data | DummyJSON + dataset lokal |
+| Cetak PDF | `window.print()` + varian `print:` Tailwind (tanpa library tambahan) |
 
 ## Cara Menjalankan
 
@@ -133,7 +142,7 @@ Akun instruktur diambil dari DummyJSON:
 
 | Email | Password |
 |---|---|
-| `ISI_EMAIL_ANDA` | `ISI_PASSWORD_ANDA` |
+| `emily.johnson@x.dummyjson.com` | `emilyspass` |
 
 Daftar instruktur lain (user dengan role `admin`) bisa dilihat di
 https://dummyjson.com/users/filter?key=role&value=admin
@@ -148,6 +157,15 @@ https://dummyjson.com/users/filter?key=role&value=admin
    mengikuti data terbaru. Catatan hasil input manual diberi label **Manual**.
 5. Di **Riwayat**, gabungkan filter kelas, murid, status, dan tanggal untuk
    mempersempit data. Klik **Reset filter** untuk mengembalikan semua data.
+6. Untuk mencetak laporan, buka **Riwayat**, atur filter (misalnya pilih **Bulan** dan
+**Tahun**), lalu klik **🖨️ Cetak PDF**. Di dialog cetak browser:
+
+| Pengaturan | Pilihan |
+|---|---|
+| Destination | **Save as PDF** |
+| Paper size | A4, Portrait |
+| Headers and footers | Nonaktif |
+| Background graphics | **Aktif** (agar warna ikut tercetak) |
 6. Ganti tema dengan tombol 🌙 / ☀️ di pojok atas.
 
 ## Sumber Data
@@ -177,18 +195,21 @@ manual **menimpa** data awal pada murid dan tanggal yang sama.
 | `tailwindcss` | Styling cepat dan konsisten, termasuk dukungan dark mode |
 
 ## Struktur Folder
-
 ```
 src/
 ├── components/   # Komponen UI yang dipakai ulang
 │                 #   Navbar, StatCard, PercentageCard, StatusBreakdown, StatusBadge,
-│                 #   Avatar, HistoryTable, grafik, LoadingState, ErrorState, EmptyState
+│                 #   Avatar, HistoryTable, PrintReport, grafik,
+│                 #   LoadingState, ErrorState, EmptyState
 ├── context/      # State global: AuthContext, ThemeContext, AttendanceContext
 ├── data/         # Dataset lokal: absensi dan kelas
 ├── hooks/        # useAttendanceData: pengambilan dan penggabungan data
 ├── pages/        # Halaman: Login, Dashboard, TakeAttendance, History
 ├── services/     # Pemanggilan REST API DummyJSON
-└── utils/        # Logika murni: statistik, filter, validasi, warna grafik
+└── utils/        # Logika murni (tanpa UI):
+                  #   stats (statistik), filters (filter), validators (validasi),
+                  #   dates (tanggal & periode), report (penyusun laporan),
+                  #   print (cetak), chartTheme (warna grafik)
 ```
 
 ## Keputusan Teknis
@@ -208,6 +229,10 @@ src/
   disimpan aplikasi; pengisian otomatis ditangani pengelola password browser.
 - **Dark mode.** Memakai class `dark` pada tag `<html>`. Preferensi disimpan, dan
   script kecil di `index.html` mencegah layar berkedip saat dimuat ulang.
+- **Cetak PDF tanpa library tambahan.** Memakai `window.print()` dan komponen
+  `PrintReport` yang hanya tampil saat mencetak. Pengguna memilih "Simpan sebagai
+  PDF" di dialog cetak browser, dan nama file otomatis mengikuti periode laporan.
+  Logika penyusunan laporan dipisah di `utils/report.js`.
 
 ## Keterbatasan dan Pengembangan Lanjutan
 
@@ -217,6 +242,8 @@ src/
   perangkat atau browser lain.
 - Status pada tanggal mendatang adalah data simulasi agar fitur terlihat penuh.
 - Pembagian murid ke kelas bersifat dummy.
+- Cetak PDF memakai dialog cetak browser, sehingga pengguna perlu memilih
+  "Save as PDF" secara manual.
 
 **Pengembangan lanjutan:**
 - Autentikasi sungguhan (JWT) dan penyimpanan ke database

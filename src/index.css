@@ -6,3 +6,24 @@
 body {
   @apply bg-slate-50 text-slate-800 transition-colors duration-300 dark:bg-slate-900 dark:text-slate-100;
 }
+
+/* Ukuran kertas dan margin saat dicetak */
+@page {
+  size: A4;
+  margin: 12mm;
+}
+
+@media print {
+  /* Kertas selalu putih, walau aplikasi sedang di mode gelap */
+  html,
+  body {
+    background: #fff !important;
+    color: #0f172a !important;
+  }
+
+  /* Pastikan warna latar ikut tercetak */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

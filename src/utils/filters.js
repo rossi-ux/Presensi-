@@ -35,3 +35,10 @@ export function filterHistory(records, filters, tab) {
         b.date.localeCompare(a.date) || (a.studentName || '').localeCompare(b.studentName || '')
     )
 }
+
+// Daftar tahun yang tersedia di data (selalu menyertakan tahun berjalan)
+export function getAvailableYears(records) {
+  const years = new Set(records.map((r) => Number(r.date.slice(0, 4))))
+  years.add(new Date().getFullYear())
+  return [...years].sort((a, b) => a - b)
+}
