@@ -23,11 +23,13 @@ Web app absensi untuk instruktur. Instruktur dapat mencatat dan memantau kehadir
 dirinya sendiri maupun murid dari beberapa kelas, lengkap dengan persentase
 kehadiran, grafik, dan riwayat yang bisa difilter.
 
-> Dibuat sebagai tugas seleksi menggunakan React dan REST API DummyJSON.
-
+## Halaman Dashboard
 ![Dashboard](docs/dashboard.png)
+## Halaman Presensi
 ![presensi murid](docs/presensi.png)
+## Halaman Riwayat
 ![Riwayat](docs/riwayat.png)
+## Halaman Cetak PDF
 ![Hasil cetak PDF](docs/laporan.png)
 
 ## Daftar Isi
@@ -221,10 +223,6 @@ src/
   `useAttendanceData`, sehingga ketiganya selalu sinkron.
 - **Komponen reusable.** Kartu, badge, tabel, grafik, serta state loading, error, dan
   kosong dipakai di beberapa halaman.
-- **Penanganan error.** Error jaringan, status HTTP, dan format data tidak valid
-  ditampilkan dalam bahasa Indonesia, lengkap dengan tombol **Coba lagi**.
-- **Data tidak valid.** Respons API divalidasi, catatan absensi yang rusak dibuang, dan
-  data `localStorage` yang korup diabaikan agar aplikasi tidak crash.
 - **Keamanan "Ingat saya".** Hanya **email** yang disimpan. Password tidak pernah
   disimpan aplikasi; pengisian otomatis ditangani pengelola password browser.
 - **Dark mode.** Memakai class `dark` pada tag `<html>`. Preferensi disimpan, dan
@@ -236,7 +234,7 @@ src/
 
 ## Keterbatasan dan Pengembangan Lanjutan
 
-**Keterbatasan (disengaja untuk keperluan demo):**
+**Keterbatasan :**
 - Autentikasi hanya simulasi (tanpa token dan tanpa back-end).
 - Input presensi manual tersimpan di browser (`localStorage`), jadi tidak terbawa ke
   perangkat atau browser lain.
